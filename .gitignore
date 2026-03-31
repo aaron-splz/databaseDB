@@ -1,0 +1,36 @@
+# --- Build-Verzeichnisse ---
+build/
+bin/
+lib/
+out/
+
+# --- vcpkg (Paketmanager) ---
+vcpkg/
+vcpkg_installed/
+
+# --- VS Code & IDEs ---
+.vscode/
+.cache/
+*.swp
+*.user
+
+# --- Compiler & CMake Artefakte ---
+CMakeFiles/
+CMakeCache.txt
+CMakeLists.txt.user
+cmake_install.cmake
+Makefile
+*.o
+*.a
+*.so
+*.exe
+*.out
+
+# --- Datenbank-Testdateien---
+*.db
+*.log
+*.bin
+
+# --- OS-spezifisch ---
+.DS_Store
+Thumbs.db
