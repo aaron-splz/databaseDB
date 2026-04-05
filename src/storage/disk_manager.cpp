@@ -6,7 +6,8 @@
 #include <span>
 #include <spdlog/spdlog.h>
 
-const int PAGE_SIZE = 4096; //ToDo: Store in seperate constants file
+#include "common/config.hpp"
+#include "common/types.hpp"
 
 namespace db::storage{
 
@@ -34,19 +35,19 @@ public:
     }
 
     // Write a page to the database
-    void write_page(const u_int32_t page_id, const char* payload){ //ToDo: maybe define Datatype for page indices
-        size_t page_offset = page_id * PAGE_SIZE;
+    void write_page(page_id_t page_id, std::span<const char, PAGE_SIZE> buffer){ //ToDo: maybe define Datatype for page indices
+        size_t page_offset = static_cast<size_t>(page_id) * PAGE_SIZE;
         spdlog::debug("Writing page {} at offset {}", page_id, page_offset);
         
         db_io_.seekp(page_offset);
-        db_io_.write(payload, PAGE_SIZE);
+        db_io_.write(buffer.data(), PAGE_SIZE);
 
         db_io_.flush();
     }
 
     // read a page from the database. We use span to make sure we have the right size
-    void read_page(size_t page_id, std::span<char, PAGE_SIZE> buffer) {
-        size_t page_offset = page_id * PAGE_SIZE;
+    void read_page(page_id_t page_id, std::span<char, PAGE_SIZE> buffer) {
+        size_t page_offset = static_cast<size_t>(page_id) * PAGE_SIZE;
         spdlog::debug("Reading page {} from offset {}", page_id, page_offset);
 
         db_io_.seekg(page_offset);
